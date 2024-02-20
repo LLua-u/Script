@@ -1,6 +1,9 @@
 local plrscripts = game.Players.LocalPlayer.PlayerScripts
 plrscripts.ClientActor:Destroy()
-local sys = require(game.ReplicatedStorage.System)
+local old = game.ReplicatedStorage.System
+local new = game.ReplicatedStorage.System:Clone()
+old:Destroy()
+local sys = require(new)
 --sys.gameActor = plrscripts:FindFirstChildOfClass("Actor")
 _G.registerClass = sys.registerClass
 _G.RegisterClass = sys.registerClass
