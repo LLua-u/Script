@@ -1,9 +1,16 @@
 local plrscripts = game.Players.LocalPlayer.PlayerScripts
-plrscripts.ClientActor:Destroy()
-local old = game.ReplicatedStorage.System
-local new = game.ReplicatedStorage.System:Clone()
-old:Destroy()
-local sys = require(new)
+plrscripts.ClientActor.Game.Parent = Instance.new("Folder", plrscripts)
+for i, v in pairs(plrscripts:GetChildren()) do
+	if v:IsA("ModuleScript") then
+		v:Clone()
+		v:Destroy()
+	end
+end
+for i, v in pairs(game.ReplicatedStorage:GetChildren()) do
+	v:Clone()
+	v:Destroy()
+end
+local sys = require(game.ReplicatedStorage.System)
 --sys.gameActor = plrscripts:FindFirstChildOfClass("Actor")
 _G.registerClass = sys.registerClass
 _G.RegisterClass = sys.registerClass
