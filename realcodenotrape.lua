@@ -11,6 +11,7 @@ function log(msg)
 	print("Handler: " .. "|" .. msg .. "|")
 end
 function boot(plr)
+	local v = plr
 	plr.Chatted:Connect(function(msg)
 		if table.find(admins, v.Name) == nil then
 			print(v.Name .. " Tried to use a cmd but doesnt have admin")
