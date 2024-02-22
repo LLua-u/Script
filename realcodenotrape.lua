@@ -1,90 +1,141 @@
-local plrscripts = game.Players.LocalPlayer.PlayerScripts
-plrscripts.ClientActor.Game.Parent = Instance.new("Folder", plrscripts)
-for i, v in pairs(plrscripts:GetChildren()) do
-	if v:IsA("ModuleScript") then
-		v:Clone()
-		v:Destroy()
+local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt"}
+print("Loaded Lua_u's and Quasars rtg admin handler")
+function GetPlayer(name)
+	for i, v in pairs(game.Players:GetPlayers()) do
+		if string.match(string.lower(name), string.sub(string.lower(v.Name),0,#name)) or string.match(string.lower(name), string.sub(string.lower(v.DisplayName),0,#name)) then
+			return v.Name
+		end
 	end
 end
-for i, v in pairs(game.ReplicatedStorage:GetChildren()) do
-	v:Clone()
-	v:Destroy()
+function log(msg)
+	print("Handler: " .. "|" .. msg .. "|")
 end
-local sys = require(game.ReplicatedStorage.System)
---sys.gameActor = plrscripts:FindFirstChildOfClass("Actor")
-_G.registerClass = sys.registerClass
-_G.RegisterClass = sys.registerClass
-_G.getClass = sys.getClass
-_G.GetClass = sys.getClass
-_G.registerBin = sys.registerBin
-_G.RegisterBin = sys.registerBin
-_G.getBin = sys.getBin
-_G.GetBin = sys.getBin
-_G.makeBin = sys.makeBin
-_G.MakeBin = sys.makeBin
-_G.registerResource = sys.registerResource
-_G.RegisterResource = sys.registerResource
-_G.getResource = sys.getResource
-_G.GetResource = sys.getResource
-_G.registerSystem = sys.registerSystem
-_G.RegisterSystem = sys.registerSystem
-_G.getSystem = sys.getSystem
-_G.GetSystem = sys.getSystem
-_G.wrapService = sys.wrapService
-_G.WrapService = sys.wrapService
-_G.getService = sys.getService
-_G.GetService = sys.getService
-print("Destroyed Actor")
-if sys.gameActor ~= nil then
-	print("Didnt load opulent properly")
+function boot(plr)
+	plr.Chatted:Connect(function(msg)
+		if table.find(admins, v.Name) == nil then
+			print(v.Name .. " Tried to use a cmd but doesnt have admin")
+			return
+		end
+		if string.find(string.lower(msg), ":vr") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local item = contents[3]
+			local atplr = contents[2] or plr.Name
+			if item == "true" then
+				item = true
+			else
+				item = false
+			end
+			if atplr == "me" then
+				atplr = plr.Name
+			end
+			if atplr == "all" then
+				for i, v in pairs(game.Players:GetPlayers()) do
+					game.ReplicatedStorage.Networking.NetworkingEvent:FireServer("Character_SetVREnabled", v.ReplicationFocus.Parent, true)
+				end
+				return
+			end
+			atplr = GetPlayer(atplr)
+			game.ReplicatedStorage.Networking.NetworkingEvent:FireServer("Character_SetVREnabled", game.Players[atplr].ReplicationFocus.Parent, true)
+		elseif string.find(string.lower(msg), ":fling") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			local str = contents[3] or "400"
+			if atplr == "all" then
+				local v4 = {}
+				for v5, v6 in pairs(game.Workspace:GetDescendants()) do
+					if v6:IsA("BasePart") then
+						table.insert(v4, {v6, tonumber(str), Vector3.new(1, 1, 1)})
+					end
+				end
+				game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
+				return
+			end
+
+			atplr = GetPlayer(atplr)
+
+			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", { {game.Players[atplr].ReplicationFocus}, 5000, Vector3.new(1,1,1) })
+		elseif string.find(string.lower(msg), ":kill") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			if atplr == "all" then
+				for i, v in pairs(game.Players:GetPlayers()) do
+					pcall(function()
+						local char = v.ReplicationFocus
+						for i = 0, 10 do
+							game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
+						end
+					end)
+				end
+				return
+			end
+
+			atplr = GetPlayer(atplr)
+
+			local char = game.Players[atplr].ReplicationFocus
+			for i = 0, 10 do
+				game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
+			end
+		elseif string.find(string.lower(msg),":admin") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			if atplr == "all" then
+				for i, v in pairs(game.Players:GetPlayers()) do
+					table.insert(admins,v.Name)
+				end
+				return
+			end
+			atplr = GetPlayer(atplr)
+			table.insert(admins,atplr)
+		elseif string.find(string.lower(msg),":unadmin") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			if atplr == "all" then
+				for i, v in pairs(game.Players:GetPlayers()) do
+					table.remove(admins,table.find(admins,v.Name))
+				end
+				return
+			end
+			atplr = GetPlayer(atplr)
+			table.remove(admins,table.find(admins,game.Players[atplr].Name))
+		elseif string.find(string.lower(msg),":nuke") then
+			for i, v in pairs(game.Workspace:GetDescendants()) do
+				if v:IsA("BasePart") then
+					game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
+				end
+			end
+		elseif string.find(string.lower(msg),":icbm") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			atplr = GetPlayer(atplr)
+			for i, v in pairs(game.Workspace:GetDescendants()) do
+				if v:IsA("BasePart") then
+					game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v, game.Players[atplr].ReplicationFocus.Position)
+				end
+			end
+		elseif string.find(string.lower(msg), ":clear") then
+			log(msg)
+			local v4 = {}
+			for v5, v6 in pairs(game.Workspace:GetDescendants()) do
+				if v6:IsA("BasePart") then
+					table.insert(v4, {v6, 9e909, Vector3.new(0, 1, 0)})
+				end
+			end
+			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
+		end
+	end)
 end
-sys.registerResource("isVipServer", function()
-	return true
+for i, v in pairs(game.Players:GetPlayers()) do
+	print("Added " .. v.Name .. " to the listener")
+	boot(v)
+end
+
+game.Players.PlayerAdded:Connect(function(v)
+	print("Added " .. v.Name .. " to the listener")
+	boot(v)
 end)
-sys.registerResource("isVipServerOwner", function()
-	return false
-end)
-function output(text)
-	print("Opulent Client: " .. text)
-end
-local Net = sys.getSystem("Networking")
-output("Initialized Networking")
-local CSG = require(plrscripts:WaitForChild("CSG"))
-output("Initialized CSG")
-local DS = require(plrscripts:WaitForChild("DataSystem"))
-output("Initialized data")
-local Input = require(plrscripts:WaitForChild("Input"))
-output("Initialized input")
-local UI = require(plrscripts:WaitForChild("UI"))
-output("Initialized UI")
-local World = require(plrscripts:WaitForChild("WorldManager"))
-output("Initialized WorldManager")
-local Env = require(plrscripts:WaitForChild("Environment"))
-output("Initialized Environment")
-local Entities = require(plrscripts:WaitForChild("Entities"))
-output("Initialized Entities")
-local ObjectManager = require(plrscripts:WaitForChild("ObjectManager"))
-output("Initialized ObjectManager")
-local Assembly = require(plrscripts:WaitForChild("AssemblyManager"))
-output("Initialized AssemblyManager")
-local MountSystem = require(plrscripts:WaitForChild("MountSystem"))
-output("Initialized MountSystem")
-local RCharacter = require(plrscripts:WaitForChild("CharacterManager"))
-output("Initialized CharacterManager")
-UI.init()
-output("Initialized kUI")
-local GE = require(plrscripts:WaitForChild("GameEvents"))
-output("Initialized GameEvents")
-output("Client finished loading!")
-UI.WindowManager.open("IntroScreen")
-Net:FireServer("Player_Loaded")
-Net:FireServer("World_DownloadData")
-local GM = Net:InvokeServer("JoinGameMode")
-if GM then
-	if GM.modeData.terrainEnabled then
-	end
-end
-if GM.modeData.autoLoad then
-	UI.WindowManager.close()
-end
-require(plrscripts:WaitForChild("KevinMakeUI")).Start()
