@@ -153,6 +153,20 @@ function boot(plr)
 				end
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
+		elseif string.find(string.lower(msg), ":vec") then
+			log(msg)
+			local v4 = {}
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			local y = contents[3] or "1"
+			local x = contents[4] or "1"
+			local z = contents[5] or "1"
+			for v5, v6 in pairs(game.Workspace:GetDescendants()) do
+				if v6:IsA("BasePart") then
+					table.insert(v4, {v6, 1, Vector3.new(tonumber(x), tonumber(y), tonumber(z))})
+				end
+			end
+			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 		end
 	end)
 end
