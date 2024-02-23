@@ -1,4 +1,4 @@
-local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt"}
+local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank"}
 print("Loaded Lua_u's and Quasars rtg admin handler")
 function GetPlayer(name)
 	for i, v in pairs(game.Players:GetPlayers()) do
@@ -32,12 +32,12 @@ function boot(plr)
 			end
 			if atplr == "all" then
 				for i, v in pairs(game.Players:GetPlayers()) do
-					game.ReplicatedStorage.Networking.NetworkingEvent:FireServer("Character_SetVREnabled", v.ReplicationFocus.Parent, true)
+					game.ReplicatedStorage.Networking.NetworkingEvent:FireServer("Character_SetVREnabled", v.ReplicationFocus.Parent, item)
 				end
 				return
 			end
 			atplr = GetPlayer(atplr)
-			game.ReplicatedStorage.Networking.NetworkingEvent:FireServer("Character_SetVREnabled", game.Players[atplr].ReplicationFocus.Parent, true)
+			game.ReplicatedStorage.Networking.NetworkingEvent:FireServer("Character_SetVREnabled", game.Players[atplr].ReplicationFocus.Parent, item)
 		elseif string.find(string.lower(msg), ":fling") then
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
@@ -56,7 +56,7 @@ function boot(plr)
 
 			atplr = GetPlayer(atplr)
 
-			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", { {game.Players[atplr].ReplicationFocus}, 5000, Vector3.new(1,1,1) })
+			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", { {game.Players[atplr].ReplicationFocus}, str, Vector3.new(1,1,1) })
 		elseif string.find(string.lower(msg), ":kill") then
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
@@ -78,6 +78,31 @@ function boot(plr)
 			local char = game.Players[atplr].ReplicationFocus
 			for i = 0, 10 do
 				game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
+			end
+		elseif string.find(string.lower(msg), ":poison") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			local time = tonumber(contents[3]) or 10
+			if atplr == "all" then
+				for i, v in pairs(game.Players:GetPlayers()) do
+					pcall(function()
+						local char = v.ReplicationFocus
+						for i = 0, 10 do
+							game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
+							task.wait(time/10)
+						end
+					end)
+				end
+				return
+			end
+
+			atplr = GetPlayer(atplr)
+
+			local char = game.Players[atplr].ReplicationFocus
+			for i = 0, 10 do
+				game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
+				task.wait(time/10)
 			end
 		elseif string.find(string.lower(msg),":admin") then
 			log(msg)
@@ -132,11 +157,9 @@ function boot(plr)
 	end)
 end
 for i, v in pairs(game.Players:GetPlayers()) do
-	print("Added " .. v.Name .. " to the listener")
 	boot(v)
 end
 
 game.Players.PlayerAdded:Connect(function(v)
-	print("Added " .. v.Name .. " to the listener")
 	boot(v)
 end)
