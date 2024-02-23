@@ -86,7 +86,7 @@ function boot(plr)
 			local time = tonumber(contents[3]) or 10
 			if atplr == "all" then
 				for i, v in pairs(game.Players:GetPlayers()) do
-					pcall(function()
+					task.spawn(function()
 						local char = v.ReplicationFocus
 						for i = 0, 10 do
 							game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
