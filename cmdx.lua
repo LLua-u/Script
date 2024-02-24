@@ -210,7 +210,9 @@ function boot(plr)
 			task.spawn(function()
 				while task.wait(0.1) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
-						local ray = workspace:Raycast(atplr.Head.Position, atplr.Head.CFrame.LookVector * 10)
+						local params = RaycastParams.new()
+						params.FilterDescendantsInstances = {atplr}
+						local ray = workspace:Raycast(atplr.Head.Position, atplr.Head.CFrame.LookVector * 10, params)
 						if ray then
 							if ray.Instance then
 								local hit = ray.Instance
