@@ -213,6 +213,15 @@ function boot(plr)
 						local params = RaycastParams.new()
 						params.FilterDescendantsInstances = {atplr, workspace.Structures}
 						local ray = workspace:Raycast(atplr.Head.Position, atplr.Head.CFrame.LookVector * 50, params)
+						local result = ray
+						if result then
+							local distance = (atplr.Head.Position - result.Position).Magnitude
+							local p = Instance.new("Part")
+							p.Anchored = true
+							p.CanCollide = false
+							p.Size = Vector3.new(0.1, 0.1, distance)
+							p.CFrame = CFrame.new(atplr.Head.Position, result.Position)*CFrame.new(0, 0, -distance/2)
+						end
 						if ray then
 							if ray.Instance then
 								local hit = ray.Instance
