@@ -212,15 +212,13 @@ function boot(plr)
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
 						local params = RaycastParams.new()
 						params.FilterDescendantsInstances = {atplr, workspace.Structures}
-						local ray = workspace:Raycast(atplr.Head.Position, workspace.CurrentCamera.CFrame.LookVector * 10, params)
+						local ray = workspace:Raycast(atplr.Head.Position, atplr.Head.CFrame.LookVector * 10, params)
 						if ray then
 							if ray.Instance then
 								local hit = ray.Instance
-								if hit.Parent.Name == "Fricklet" then
-									local char = hit
-									for i = 0, 10 do
-										game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
-									end
+								local char = hit
+								for i = 0, 10 do
+									game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
 								end
 							end
 						end
