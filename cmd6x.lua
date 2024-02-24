@@ -208,7 +208,7 @@ function boot(plr)
 			local atplr = contents[2] or plr.Name
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			task.spawn(function()
-				while task.wait(0.1) do
+				while task.wait() do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
 						local params = RaycastParams.new()
 						params.FilterDescendantsInstances = {atplr, workspace.Structures}
