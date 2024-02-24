@@ -158,6 +158,7 @@ function boot(plr)
 			local v4 = {}
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
+			atplr = GetPlayer(atplr)
 			local y = contents[3] or "1"
 			local x = contents[4] or "1"
 			local z = contents[5] or "1"
