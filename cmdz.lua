@@ -159,10 +159,11 @@ function boot(plr)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			atplr = GetPlayer(atplr)
+			atplr = game.Players[atplr]
 			local y = contents[3] or "1"
 			local x = contents[4] or "1"
 			local z = contents[5] or "1"
-			for v5, v6 in pairs(game.Workspace:GetDescendants()) do
+			for v5, v6 in pairs(atplr.ReplicationFocus.Parent:GetChildren()) do
 				if v6:IsA("BasePart") then
 					table.insert(v4, {v6, 1, Vector3.new(tonumber(x), tonumber(y), tonumber(z))})
 				end
