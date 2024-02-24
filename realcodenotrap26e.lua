@@ -166,6 +166,22 @@ function boot(plr)
 					table.insert(v4, {v6, 1, Vector3.new(tonumber(x), tonumber(y), tonumber(z))})
 				end
 			end
+			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4) --game.Workspace:GetPartBoundsInRadius()
+		elseif string.find(string.lower(msg), ":flung") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			local str = contents[3] or "50"
+			local range = contents[3] or "100"
+			local params = OverlapParams.new()
+			params.FilterDescendantsInstances = {game.Players[atplr].ReplicationFocus.Parent}
+			local v4 = {}
+			for v5, v6 in pairs(game.Workspace:GetPartBoundsInRadius(game.Players[atplr].ReplicationFocus.Position,tonumber(range),params)) do
+				if v6:IsA("BasePart") then
+					table.insert(v4, {v6, tonumber(str), Vector3.new(1, 1, 1)})
+				end
+
+			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 		end
 	end)
