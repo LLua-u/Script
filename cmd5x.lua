@@ -216,7 +216,7 @@ function boot(plr)
 						local result = ray
 						if result then
 							local distance = (atplr.Head.Position - result.Position).Magnitude
-							local p = Instance.new("Part")
+							local p = Instance.new("Part", workspace)
 							p.Anchored = true
 							p.CanCollide = false
 							p.Size = Vector3.new(0.1, 0.1, distance)
