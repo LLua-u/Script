@@ -175,7 +175,7 @@ function boot(plr)
 			local atplr = contents[2] or plr.Name
 			atplr = GetPlayer(atplr)
 			local str = contents[3] or "50"
-			local range = contents[3] or "100"
+			local range = contents[4] or "100"
 			local params = OverlapParams.new()
 			params.FilterDescendantsInstances = {game.Players[atplr].ReplicationFocus.Parent}
 			local v4 = {}
