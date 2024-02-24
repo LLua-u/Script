@@ -172,6 +172,7 @@ function boot(plr)
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
+			atplr = GetPlayer(atplr)
 			local str = contents[3] or "50"
 			local range = contents[3] or "100"
 			local params = OverlapParams.new()
