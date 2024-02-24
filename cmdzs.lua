@@ -206,7 +206,7 @@ function boot(plr)
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
-			atplr = game.Players[GetPlayer(atplr)]
+			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			task.spawn(function()
 				while task.wait(0.1) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
