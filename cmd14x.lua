@@ -226,12 +226,14 @@ function boot(plr)
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			local detector = Instance.new("Part", atplr)
 			detector.Name = "Detect"
-			local weld = Instance.new("WeldConstraint", detector)
-			weld.Part0 = atplr.Head
-			weld.Part1 = detector
-			detector.CFrame = atplr.Head.CFrame
+			task.spawn(function()
+				while task.wait() do
+					detector.CFrame = atplr.Head.CFrame
+				end
+			end)
 			detector.Size = Vector3.new(1,1,100)
 			detector.CanCollide = false
+			detector.Anchored = true
 			task.spawn(function()
 				while task.wait(0.1) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
