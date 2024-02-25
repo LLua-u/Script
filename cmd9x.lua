@@ -192,9 +192,9 @@ function boot(plr)
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			task.spawn(function()
-				while task.wait(0.1) do
+				while task.wait(0.05) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
-						local vector = Vector3.new(150, 150, 150) * atplr.Head.CFrame.LookVector
+						local vector = Vector3.new(1500, 1500, 1500) * atplr.Head.CFrame.LookVector
 						local v4 = {}
 						table.insert(v4, {hrp, 1, vector})
 						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
