@@ -185,22 +185,36 @@ function boot(plr)
 				end
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
-		elseif string.find(string.lower(msg), ":fly") then --rbxassetid://5781560536
+		elseif string.find(string.lower(msg), ":thumb") then --rbxassetid://5781560536
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
+			local plr = game.Players[GetPlayer(atplr)]
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			task.spawn(function()
-				while task.wait(0.05) do
+				while task.wait(0.1) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
-						local vector = Vector3.new(1500, 1500, 1500) * atplr.Head.CFrame.LookVector
+						local speed = 1500
+						if plr:FindFirstChild("Speed") then
+							speed = plr.Speed
+						end
+						local vector = Vector3.new(speed, speed, speed) * hrp.CFrame.LookVector
 						local v4 = {}
 						table.insert(v4, {hrp, 1, vector})
 						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 					end
 				end
 			end)
+		elseif string.find(string.lower(msg), ":thumbspeed") then
+			log(msg)
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			local speed = contents[3] or "1500"
+			atplr = game.Players[GetPlayer(atplr)]
+			local spd = Instance.new("NumberValue", atplr)
+			spd.Name = "Speed"
+			spd.Value = tonumber(speed)
 		elseif string.find(string.lower(msg), ":pointer") then --rbxassetid://5781560536
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
