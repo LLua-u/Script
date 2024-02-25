@@ -231,6 +231,7 @@ function boot(plr)
 			weld.Part1 = detector
 			detector.CFrame = atplr.Head.CFrame
 			detector.Size = Vector3.new(1,1,100)
+			detector.CanCollide = false
 			task.spawn(function()
 				while task.wait(0.1) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
