@@ -185,7 +185,7 @@ function boot(plr)
 				end
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
-		elseif string.find(string.lower(msg), ":thumb") then --rbxassetid://5781560536
+		elseif string.find(string.lower(msg), ":thumb") then --rbxassetid://5781560662
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
@@ -199,7 +199,7 @@ function boot(plr)
 						if plr:FindFirstChild("Speed") then
 							speed = plr.Speed.Value
 						end
-						local vector = Vector3.new(speed, speed, speed) * hrp.CFrame.LookVector
+						local vector = Vector3.new(speed, 0, speed) * hrp.CFrame.LookVector
 						local v4 = {}
 						table.insert(v4, {hrp, 1, vector})
 						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
@@ -244,6 +244,20 @@ function boot(plr)
 							for i, v in pairs(stf) do
 								if v:IsDescendantOf(game.Workspace.WorldObjects) then
 									game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
+								end
+							end
+						end
+					end
+					if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560662" then
+						local params = OverlapParams.new()
+						params.FilterDescendantsInstances = {atplr, workspace.Structures}
+						local stf = workspace:GetPartsInPart(detector,params)
+						if #stf >= 1 then
+							for i, v in pairs(stf) do
+								if v:IsDescendantOf(game.Workspace.WorldObjects) then
+									local v4 = {}
+									table.insert(v4, {v, 1, Vector3.new(0, 5000, 0)})
+									game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 								end
 							end
 						end
