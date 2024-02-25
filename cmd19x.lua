@@ -169,11 +169,11 @@ function boot(plr)
 				end
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4) --game.Workspace:GetPartBoundsInRadius()
-		elseif string.find(string.lower(msg), "domain expansion") then
+		elseif string.find(string.lower(msg), "malevolent plugin") then
 			log(msg, plr)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = plr
-			local str = "5000"
+			local str = "500"
 			local range = "100"
 			local params = OverlapParams.new()
 			params.FilterDescendantsInstances = {atplr.ReplicationFocus.Parent}
@@ -185,7 +185,7 @@ function boot(plr)
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 			task.spawn(function()
-				wait(5)
+				wait(3)
 				for i, v in pairs(v4) do
 					v = v[1]
 					game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
