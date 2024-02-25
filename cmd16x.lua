@@ -231,7 +231,7 @@ function boot(plr)
 					detector.CFrame = atplr.Head.CFrame
 				end
 			end)
-			detector.Size = Vector3.new(1,1,100)
+			detector.Size = Vector3.new(1,1,2000)
 			detector.CanCollide = false
 			detector.Anchored = true
 			task.spawn(function()
@@ -242,10 +242,8 @@ function boot(plr)
 						local stf = workspace:GetPartsInPart(detector,params)
 						if #stf >= 1 then
 							for i, v in pairs(stf) do
-								if v.Parent.Name == "Fricklet" then
-									for i = 0, 10 do
-										game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
-									end
+								if v:IsDescendantOf(game.Workspace.WorldObjects) then
+									game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
 								end
 							end
 						end
