@@ -243,7 +243,6 @@ function boot(plr)
 						if #stf >= 1 then
 							for i, v in pairs(stf) do
 								if v.Parent.Name == "Fricklet" then
-									local char = game.Players[atplr].ReplicationFocus
 									for i = 0, 10 do
 										game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
 									end
