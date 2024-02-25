@@ -193,7 +193,7 @@ function boot(plr)
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			task.spawn(function()
-				while task.wait(0.1) do
+				while task.wait(0.05) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
 						local speed = 1500
 						if plr:FindFirstChild("Speed") then
@@ -224,27 +224,25 @@ function boot(plr)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
+			local detector = Instance.new("Part", atplr)
+			detector.Name = "Detect"
+			local weld = Instance.new("WeldConstraint", detector)
+			weld.Part0 = atplr.Head
+			weld.Part1 = detector
+			detector.CFrame = atplr.Head.CFrame
 			task.spawn(function()
-				while task.wait() do
+				while task.wait(0.1) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
-						local params = RaycastParams.new()
+						local params = OverlapParams.new()
 						params.FilterDescendantsInstances = {atplr, workspace.Structures}
-						local ray = workspace:Raycast(atplr.Head.Position, atplr.Head.CFrame.LookVector * 50, params)
-						local result = ray
-						if result then
-							local distance = (atplr.Head.Position - result.Position).Magnitude
-							local p = Instance.new("Part", workspace)
-							p.Anchored = true
-							p.CanCollide = false
-							p.Size = Vector3.new(0.1, 0.1, distance)
-							p.CFrame = CFrame.new(atplr.Head.Position, result.Position)*CFrame.new(0, 0, -distance/2)
-						end
-						if ray then
-							if ray.Instance then
-								local hit = ray.Instance
-								local char = hit
-								for i = 0, 10 do
-									game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
+						local stf = workspace:GetPartsInPart(detector,params)
+						if #stf >= 1 then
+							for i, v in pairs(stf) do
+								if v.Parent.Name == "Fricklet" then
+									local char = game.Players[atplr].ReplicationFocus
+									for i = 0, 10 do
+										game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
+									end
 								end
 							end
 						end
