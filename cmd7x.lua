@@ -183,25 +183,27 @@ function boot(plr)
 				if v6:IsA("BasePart") then
 					table.insert(v4, {v6, tonumber(str), Vector3.new(1, 1, 1)})
 				end
-
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 		elseif string.find(string.lower(msg), ":fly") then --rbxassetid://5781560536
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
-			atplr = GetPlayer(atplr)
-			local str = contents[3] or "50"
-			local range = contents[4] or "100"
-			local params = OverlapParams.new()
-			params.FilterDescendantsInstances = {game.Players[atplr].ReplicationFocus.Parent}
-			local v4 = {}
-			for v5, v6 in pairs(game.Workspace:GetPartBoundsInRadius(game.Players[atplr].ReplicationFocus.Position,tonumber(range),params)) do
-				if v6:IsA("BasePart") then
-					table.insert(v4, {v6, tonumber(str), Vector3.new(1, 1, 1)})
+			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
+			task.spawn(function()
+				while task.wait(0.1) do
+					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
+						local vector = Vector3.new(150, 150, 150) * atplr.Head.LookVector
+						local v4 = {}
+						for v5, v6 in pairs(atplr:GetChildren()) do
+							if v6:IsA("BasePart") then
+								table.insert(v4, {v6, 1, vector})
+							end
+						end
+						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
+					end
 				end
-			end
-			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
+			end)
 		elseif string.find(string.lower(msg), ":pointer") then --rbxassetid://5781560536
 			log(msg)
 			local contents = string.split(string.lower(msg), " ")
