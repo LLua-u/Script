@@ -197,7 +197,7 @@ function boot(plr)
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
 						local speed = 1500
 						if plr:FindFirstChild("Speed") then
-							speed = plr.Speed
+							speed = plr.Speed.Value
 						end
 						local vector = Vector3.new(speed, speed, speed) * hrp.CFrame.LookVector
 						local v4 = {}
@@ -212,6 +212,10 @@ function boot(plr)
 			local atplr = contents[2] or plr.Name
 			local speed = contents[3] or "1500"
 			atplr = game.Players[GetPlayer(atplr)]
+			if atplr:FindFirstChild("Speed") then
+				atplr.Speed.Value = tonumber(speed)
+				return
+			end
 			local spd = Instance.new("NumberValue", atplr)
 			spd.Name = "Speed"
 			spd.Value = tonumber(speed)
