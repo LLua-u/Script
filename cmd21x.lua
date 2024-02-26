@@ -1,5 +1,5 @@
 local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank"}
-print("Loaded Road to aids")
+print("Loaded Lua_u's and Quasars rtg admin handler")
 function GetPlayer(name)
 	for i, v in pairs(game.Players:GetPlayers()) do
 		if string.match(string.lower(name), string.sub(string.lower(v.Name),0,#name)) or string.match(string.lower(name), string.sub(string.lower(v.DisplayName),0,#name)) then
@@ -234,7 +234,7 @@ function boot(plr)
 			detector.Name = "Detect"
 			task.spawn(function()
 				while task.wait() do
-					detector.CFrame = atplr.Head.CFrame * CFrame.new(Vector3.new(0, 0, -2000))
+					detector.CFrame = atplr.Head.CFrame * CFrame.new(Vector3.new(0, 0, -1000))
 				end
 			end)
 			detector.Size = Vector3.new(1,1,2000)
