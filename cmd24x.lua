@@ -247,11 +247,11 @@ function boot(plr)
 			task.spawn(function()
 				while task.wait(0.05) do
 					if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
-						local speed = 200
+						local speed = 800
 						if plr:FindFirstChild("Speed") then
 							speed = plr.Speed.Value
 						end
-						local vector = Vector3.new(speed, speed, speed) * atplr.Head.CFrame.LookVector
+						local vector = Vector3.new(speed, 20, speed) * atplr.Head.CFrame.LookVector
 						local v4 = {}
 						table.insert(v4, {hrp, 1, vector * Vector3.new(0,hrp:GetMass() * workspace.Gravity, 0)})
 						local otha = {}
