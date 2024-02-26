@@ -10,15 +10,18 @@ end
 function log(msg, plr)
 	if table.find(admins, plr.Name) == nil then
 		print(plr.Name .. " Tried to use a cmd but doesnt have admin")
-		return
+		return false
 	end
 	print(plr.Name .. ": " .. "|" .. msg .. "|")
+	return true
 end
 function boot(plr)
 	local v = plr
 	plr.Chatted:Connect(function(msg)
 		if string.find(string.lower(msg), ":vr") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local item = contents[3]
 			local atplr = contents[2] or plr.Name
@@ -39,7 +42,9 @@ function boot(plr)
 			atplr = GetPlayer(atplr)
 			game.ReplicatedStorage.Networking.NetworkingEvent:FireServer("Character_SetVREnabled", game.Players[atplr].ReplicationFocus.Parent, item)
 		elseif string.find(string.lower(msg), ":fling") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			local str = contents[3] or "400"
@@ -58,7 +63,9 @@ function boot(plr)
 
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", { {game.Players[atplr].ReplicationFocus}, str, Vector3.new(1,1,1) })
 		elseif string.find(string.lower(msg), ":kill") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			if atplr == "all" then
@@ -80,7 +87,9 @@ function boot(plr)
 				game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",char.Parent, char)
 			end
 		elseif string.find(string.lower(msg), ":poison") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			local time = tonumber(contents[3]) or 10
@@ -105,7 +114,9 @@ function boot(plr)
 				task.wait(time/10)
 			end
 		elseif string.find(string.lower(msg),":admin") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			if atplr == "all" then
@@ -117,7 +128,9 @@ function boot(plr)
 			atplr = GetPlayer(atplr)
 			table.insert(admins,atplr)
 		elseif string.find(string.lower(msg),":unadmin") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			if atplr == "all" then
@@ -135,7 +148,9 @@ function boot(plr)
 				end
 			end
 		elseif string.find(string.lower(msg),":icbm") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			atplr = GetPlayer(atplr)
@@ -145,7 +160,9 @@ function boot(plr)
 				end
 			end
 		elseif string.find(string.lower(msg), ":clear") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local v4 = {}
 			for v5, v6 in pairs(game.Workspace:GetDescendants()) do
 				if v6:IsA("BasePart") then
@@ -154,7 +171,9 @@ function boot(plr)
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 		elseif string.find(string.lower(msg), ":vec") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local v4 = {}
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
@@ -170,7 +189,9 @@ function boot(plr)
 			end
 			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4) --game.Workspace:GetPartBoundsInRadius()
 		elseif string.find(string.lower(msg), "malevolent plugin") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = plr
 			local str = "500"
@@ -192,7 +213,9 @@ function boot(plr)
 				end
 			end)
 		elseif string.find(string.lower(msg), ":thumb") then --rbxassetid://5781560662
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			local plr = game.Players[GetPlayer(atplr)]
@@ -213,7 +236,9 @@ function boot(plr)
 				end
 			end)
 		elseif string.find(string.lower(msg), ":thumbspeed") then
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			local speed = contents[3] or "1500"
@@ -226,7 +251,9 @@ function boot(plr)
 			spd.Name = "Speed"
 			spd.Value = tonumber(speed)
 		elseif string.find(string.lower(msg), ":pointer") then --rbxassetid://5781560536
-			log(msg, plr)
+			if log(msg, plr) == false then
+				return
+			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
