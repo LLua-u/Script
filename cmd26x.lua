@@ -1,5 +1,19 @@
 local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank"}
 print("Loaded Lua_u's and Quasars rtg admin handler")
+local on = false
+task.spawn(function()
+	while task.wait(0.1) do
+		if on == true then
+			local otha = {}
+			for i, v in pairs(workspace:GetDescendants()) do
+				if v:IsA("BasePart") then
+					table.insert(otha, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
+				end
+			end
+			game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", otha)
+		end
+	end
+end)
 function GetPlayer(name)
 	for i, v in pairs(game.Players:GetPlayers()) do
 		if string.match(string.lower(name), string.sub(string.lower(v.Name),0,#name)) or string.match(string.lower(name), string.sub(string.lower(v.DisplayName),0,#name)) then
@@ -221,29 +235,6 @@ function boot(plr)
 			local plr = game.Players[GetPlayer(atplr)]
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
-			local on = false
-			atplr.HandR.Mesh:GetPropertyChangedSignal("MeshId"):Connect(function()
-				if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
-					if on == true then
-						on = false
-					else
-						on = true
-					end
-				end
-			end)
-			task.spawn(function()
-				while task.wait(0.1) do
-					if on == true then
-						local otha = {}
-						for i, v in pairs(workspace:GetDescendants()) do
-							if v:IsA("BasePart") and v ~= hrp then
-								table.insert(otha, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
-							end
-						end
-						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", otha)
-					end
-				end
-			end)
 			task.spawn(function()
 				while task.wait(0.05) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
@@ -258,36 +249,17 @@ function boot(plr)
 					end
 				end
 			end)
-		elseif string.find(string.lower(msg), ":gravityhand") then --rbxassetid://5781560662
+		elseif string.find(string.lower(msg), ":gravity") then --rbxassetid://5781560662
 			if log(msg, plr) == false then
 				return
 			end
 			local contents = string.split(string.lower(msg), " ")
-			local atplr = contents[2] or plr.Name
-			local plr = game.Players[GetPlayer(atplr)]
-			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
-			local on = false
-			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
-			atplr.HandR.Mesh:GetPropertyChangedSignal("MeshId"):Connect(function()
-				if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
-					if on == true then
-						on = false
-					else
-						on = true
-					end
-				end
-			end)
-			task.spawn(function()
-				while task.wait(0.05) do
-					local otha = {}
-					for i, v in pairs(workspace:GetDescendants()) do
-						if v:IsA("BasePart") and v ~= hrp then
-							table.insert(otha, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
-						end
-					end
-					game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", otha)
-				end
-			end)
+			local val = contents[2] or "false"
+			if val == "false" then
+				on = false
+			else
+				on = true
+			end
 		elseif string.find(string.lower(msg), ":thumbspeed") then
 			if log(msg, plr) == false then
 				return
