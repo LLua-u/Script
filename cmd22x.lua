@@ -1,4 +1,4 @@
-local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank"}
+local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank", "evanbre1982"}
 print("Loaded Lua_u's and Quasars rtg admin handler")
 function GetPlayer(name)
 	for i, v in pairs(game.Players:GetPlayers()) do
