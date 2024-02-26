@@ -221,6 +221,29 @@ function boot(plr)
 			local plr = game.Players[GetPlayer(atplr)]
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
+			local on = false
+			atplr.HandR.Mesh:GetPropertyChangedSignal("MeshId"):Connect(function()
+				if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
+					if on == true then
+						on = false
+					else
+						on = true
+					end
+				end
+			end)
+			task.spawn(function()
+				while task.wait(0.1) do
+					if on == true then
+						local otha = {}
+						for i, v in pairs(workspace:GetDescendants()) do
+							if v:IsA("BasePart") and v ~= hrp then
+								table.insert(otha, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
+							end
+						end
+						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", otha)
+					end
+				end
+			end)
 			task.spawn(function()
 				while task.wait(0.05) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
@@ -235,7 +258,7 @@ function boot(plr)
 					end
 				end
 			end)
-		elseif string.find(string.lower(msg), ":fly") then --rbxassetid://5781560662
+		elseif string.find(string.lower(msg), ":gravityhand") then --rbxassetid://5781560662
 			if log(msg, plr) == false then
 				return
 			end
@@ -243,26 +266,26 @@ function boot(plr)
 			local atplr = contents[2] or plr.Name
 			local plr = game.Players[GetPlayer(atplr)]
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
+			local on = false
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
+			atplr.HandR.Mesh:GetPropertyChangedSignal("MeshId"):Connect(function()
+				if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
+					if on == true then
+						on = false
+					else
+						on = true
+					end
+				end
+			end)
 			task.spawn(function()
 				while task.wait(0.05) do
-					if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
-						local speed = 800
-						if plr:FindFirstChild("Speed") then
-							speed = plr.Speed.Value
+					local otha = {}
+					for i, v in pairs(workspace:GetDescendants()) do
+						if v:IsA("BasePart") and v ~= hrp then
+							table.insert(otha, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
 						end
-						local vector = Vector3.new(speed, 20, speed) * atplr.Head.CFrame.LookVector
-						local v4 = {}
-						table.insert(v4, {hrp, 1, vector * Vector3.new(0,hrp:GetMass() * workspace.Gravity, 0)})
-						local otha = {}
-						for i, v:BasePart in pairs(atplr:GetChildren()) do
-							if v:IsA("BasePart") and v ~= hrp then
-								table.insert(otha, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
-							end
-						end
-						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
-						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", otha)
 					end
+					game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", otha)
 				end
 			end)
 		elseif string.find(string.lower(msg), ":thumbspeed") then
