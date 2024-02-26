@@ -222,7 +222,7 @@ function boot(plr)
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			task.spawn(function()
-				while task.wait(0.1) do --rbxassetid://5781560909
+				while task.wait(0.02) do --rbxassetid://5781560909
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
 						local speed = 1500
 						if plr:FindFirstChild("Speed") then
