@@ -1,4 +1,4 @@
-local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank", "evanbre1982"}
+local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank"}
 print("Loaded Lua_u's and Quasars rtg admin handler")
 function GetPlayer(name)
 	for i, v in pairs(game.Players:GetPlayers()) do
@@ -232,6 +232,36 @@ function boot(plr)
 						local v4 = {}
 						table.insert(v4, {hrp, 1, vector})
 						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
+					end
+				end
+			end)
+		elseif string.find(string.lower(msg), ":fly") then --rbxassetid://5781560662
+			if log(msg, plr) == false then
+				return
+			end
+			local contents = string.split(string.lower(msg), " ")
+			local atplr = contents[2] or plr.Name
+			local plr = game.Players[GetPlayer(atplr)]
+			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
+			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
+			task.spawn(function()
+				while task.wait(0.05) do
+					if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
+						local speed = 200
+						if plr:FindFirstChild("Speed") then
+							speed = plr.Speed.Value
+						end
+						local vector = Vector3.new(speed, speed, speed) * atplr.Head.CFrame.LookVector
+						local v4 = {}
+						table.insert(v4, {hrp, 1, vector * Vector3.new(0,hrp:GetMass() * workspace.Gravity, 0)})
+						local otha = {}
+						for i, v:BasePart in pairs(atplr:GetChildren()) do
+							if v:IsA("BasePart") and v ~= hrp then
+								table.insert(otha, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
+							end
+						end
+						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
+						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", otha)
 					end
 				end
 			end)
