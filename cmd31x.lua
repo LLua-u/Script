@@ -212,7 +212,7 @@ function boot(plr)
 					game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Gun_ProjectileHit",v.Parent, v)
 				end
 			end)
-		elseif string.find(string.lower(msg), ":thumb") then --rbxassetid://5781560662
+		elseif string.find(string.lower(msg), ":thumb") then
 			if log(msg, plr) == false then
 				return
 			end
@@ -235,22 +235,31 @@ function boot(plr)
 					end
 				end
 			end)
-		elseif string.find(string.lower(msg), ":thumbspeed") then
+		elseif string.find(string.lower(msg), ":teeth") then
 			if log(msg, plr) == false then
 				return
 			end
 			local contents = string.split(string.lower(msg), " ")
 			local atplr = contents[2] or plr.Name
-			local speed = contents[3] or "1500"
-			atplr = game.Players[GetPlayer(atplr)]
-			if atplr:FindFirstChild("Speed") then
-				atplr.Speed.Value = tonumber(speed)
-				return
-			end
-			local spd = Instance.new("NumberValue", atplr)
-			spd.Name = "Speed"
-			spd.Value = tonumber(speed)
-		elseif string.find(string.lower(msg), ":pointer") then --rbxassetid://5781560536
+			local char = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
+			task.spawn(function()
+				while task.wait(0.4) do
+					local teeth = {}
+					for i,v in pairs(game:GetService("Workspace").WorldObjects:GetDescendants()) do
+						if v.Name == "Tooth" then
+							table.insert(teeth,v)
+							local b = v
+							game:GetService("ReplicatedStorage").Networking.NetworkingEvent:FireServer("PickupItem", b, true, CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)), 3, Vector3.new(0,0,0))
+							wait(0.1)
+						end
+					end
+					for i, v in teeth do
+						v.CFrame = char.Head.CFrame
+						v.Anchored = true
+					end
+				end
+			end)
+		elseif string.find(string.lower(msg), ":pointer") then
 			if log(msg, plr) == false then
 				return
 			end
