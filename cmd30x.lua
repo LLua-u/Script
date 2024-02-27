@@ -233,15 +233,6 @@ function boot(plr)
 						table.insert(v4, {hrp, 1, vector})
 						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
 					end
-					if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
-						local v4 = {}
-						for i, v in pairs(workspace:GetDescendants()) do
-							if v:IsA("BasePart") then
-								table.insert(v4, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
-							end
-						end
-						game.ReplicatedStorage.Networking:WaitForChild("NetworkingEvent"):FireServer("Leafblower_PushParts", v4)
-					end
 				end
 			end)
 		elseif string.find(string.lower(msg), ":thumbspeed") then
