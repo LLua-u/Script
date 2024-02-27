@@ -222,7 +222,7 @@ function boot(plr)
 			local hrp = game.Players[GetPlayer(atplr)].ReplicationFocus
 			atplr = game.Players[GetPlayer(atplr)].ReplicationFocus.Parent
 			task.spawn(function()
-				while task.wait(0.02) do --rbxassetid://5781560909
+				while task.wait(0.05) do --rbxassetid://5781560909
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560781" then
 						local speed = 1500
 						if plr:FindFirstChild("Speed") then
@@ -235,7 +235,7 @@ function boot(plr)
 					end
 					if atplr.HandR.Mesh.MeshId == "rbxassetid://5781560909" then
 						local v4 = {}
-						for i, v in pairs(atplr:GetChildren()) do
+						for i, v in pairs(workspace:GetDescendants()) do
 							if v:IsA("BasePart") then
 								table.insert(v4, {v, 1, Vector3.new(0, v:GetMass() * workspace.Gravity, 0)})
 							end
