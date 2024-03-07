@@ -276,6 +276,7 @@ function boot(plr)
 			detector.Size = Vector3.new(1,1,2000)
 			detector.CanCollide = false
 			detector.Anchored = true
+			detector.Transparency = 1
 			task.spawn(function()
 				while task.wait(0.1) do
 					if atplr.HandL.Mesh.MeshId == "rbxassetid://5781560536" then
