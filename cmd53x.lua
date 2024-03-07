@@ -1,5 +1,5 @@
 local admins = {"boombongbingy", "tacodoomsday", "100kwadaccount", "noobmankill123", "Partykidcrazy", "Daybot2" , "Partykidcrazy2", "123iloveu3231", "nawalamodfriz_alt", "wegotdatbank", "wadwadwdawda5"}
-print("Loaded Lua_u's and Quasars rtg admin handler")
+print("RTA ON TOP")
 function GetPlayer(name)
 	for i, v in pairs(game.Players:GetPlayers()) do
 		if string.match(string.lower(name), string.sub(string.lower(v.Name),0,#name)) or string.match(string.lower(name), string.sub(string.lower(v.DisplayName),0,#name)) then
